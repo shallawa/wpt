@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>Toast: action tests</title>
+
+<script src="/resources/testharness.js"></script>
+<script src="/resources/testharnessreport.js"></script>
+
+<main></main>
+
+<script type="module">
+import { testActionToast } from './resources/helpers.js';
+
+testActionToast((toast) => {
+    toast.open = true;
+    const rect = toast.getBoundingClientRect();
+    const shouldBeAction = document.elementFromPoint(rect.right - 15, rect.bottom - 15);
+
+    assert_equals(shouldBeAction.getAttribute('slot'), 'action');
+    assert_equals(shouldBeAction, toast.querySelector('button'));
+}, 'the slotted action of the toast shows up at the far right');
+
+testActionToast((toast) => {
+    toast.append('some text at the end');
+    toast.open = true;
+    const rect = toast.getBoundingClientRect();
+    const shouldBeAction = document.elementFromPoint(rect.right - 15, rect.bottom - 15);
+
+    assert_equals(shouldBeAction.getAttribute('slot'), 'action');
+    assert_equals(shouldBeAction, toast.querySelector('button'));
+}, 'the slotted action of the toast shows up at the far right even if it precedes text in the light DOM');
+
+</script>

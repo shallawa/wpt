@@ -41,6 +41,17 @@ export const testShowToast = (testFn, name) => {
     runTest(testFn, name, toast);
 };
 
+export const testActionToast = (testFn, name) => {
+    const toast = new StdToastElement('Message', {});
+    const action = document.createElement('button');
+    action.setAttribute('slot', 'action');
+    action.textContent = 'action';
+    toast.appendChild(action);
+    document.querySelector('main').appendChild(toast);
+
+    runTest(testFn, name, toast);
+};
+
 export const assertToastShown = (toast) => {
     assert_not_equals(window.getComputedStyle(toast).display, 'none');
     assert_true(toast.hasAttribute('open'));
